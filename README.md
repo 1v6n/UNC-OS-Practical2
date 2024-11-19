@@ -4,9 +4,8 @@
 
 En un mundo devastado por la pandemia del Cordyceps, donde la tecnología es un recurso escaso pero vital para la supervivencia, las comunidades refugiadas dependen de sistemas heredados para mantener sus infraestructuras esenciales. La comunicación, el monitoreo de sistemas y la gestión de recursos se han vuelto más críticos que nunca. En este contexto, desarrollar herramientas que nos permitan interactuar y controlar nuestros sistemas es fundamental.
 
-<p align="center">
-  <img src=".img/img.png"/>
-</p>
+![image](https://github.com/user-attachments/assets/7b23d5bb-8436-4ee8-a82b-28b11aaad7c7)
+
 
 En este segundo trabajo, tu misión es diseñar e implementar una **shell personalizada** al estilo Bourne Shell, adaptada a las necesidades del refugio. Esta shell no solo nos permitirá ejecutar y controlar programas esenciales, sino que también se integrará con el sistema de monitoreo desarrollado previamente, proporcionando una interfaz unificada para gestionar nuestros recursos tecnológicos.
 

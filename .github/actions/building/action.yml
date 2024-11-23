@@ -1,0 +1,41 @@
+name: "Build"
+description: "Executes a compilation."
+
+runs:
+  using: "composite"
+  steps:
+    - name: Compile
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt install libmicrohttpd-dev
+
+        PROJECT_ROOT=$(pwd)
+        SUBMODULE_DIR="$PROJECT_ROOT/submodule/lib/prometheus-client-c"
+
+        cd "$SUBMODULE_DIR/prom"
+        mkdir -p build
+        cd build
+        cmake ..
+        make
+        sudo make install
+        
+        cd "$SUBMODULE_DIR/promhttp"
+        mkdir -p build
+        cd build
+        cmake ..
+        make
+        sudo make install
+
+        cd "$PROJECT_ROOT"
+
+        pip install conan
+        conan profile detect --force
+        conan config home
+        cp ~/.conan2/profiles/default ~/.conan2/profiles/debug && sed -i -e 's/Release/Debug/g' ~/.conan2/profiles/debug
+        conan install . --build=missing --profile=debug
+
+        mkdir -p build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Debug
+        make

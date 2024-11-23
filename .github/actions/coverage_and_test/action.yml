@@ -1,0 +1,56 @@
+name: "Test and coverage check"
+description: "Test and coverage check with gcovr, pass if coverage is greater than 20%"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Run coverage"
+      shell: bash
+      run: |
+        PROJECT_PATH=$(pwd)
+
+        ERROR_FILE_FLAG=$(pwd)/tests_errors.txt
+
+        CTEST_ERROR_FILE_FLAG=$(pwd)/ctest_errors.txt
+        # run tests built with cmake
+        # --output-on-faileure: prints everythin outputted by the tests if it fails
+        # -VV verbose output
+        CTEST_COMMAND=$(ctest --test-dir build/tests --output-on-failure -VV 2> $CTEST_ERROR_FILE_FLAG 1>$ERROR_FILE_FLAG)
+
+        if [ -s $CTEST_ERROR_FILE_FLAG ]; then
+          echo "Error: Unit Tests Failed"
+          exit 1
+        else
+          echo "All tests where passed!"
+        fi
+
+        # run coverage of those tests and oputput to file
+        gcovr -r $PROJECT_PATH . >> $ERROR_FILE_FLAG
+
+        echo "Runnig: gcovr -r $PROJECT_PATH ."
+
+        cat $ERROR_FILE_FLAG
+
+        # Find the value of correct coverage
+        # parse coverage output file and extracts coverage percentage
+        # grep pulls out the line of the total
+        # awk prints only the last field (NF = number of fields of the grepped line)
+        # cut finnaly creates a list using '%' as a delimiter (-d '%') and keeps first value (-f 1)
+        COVERAGE_RESULT=$(grep "TOTAL" $ERROR_FILE_FLAG | awk '{print $NF}' | cut -d '%' -f 1)
+
+        # Coverage lines GT 5
+        if [ "$(echo "$COVERAGE_RESULT > 5" | bc)" -eq 1 ]; then
+            echo "Coverage is greater than 5%. Nice!"
+            exit 0
+        else
+            echo "Error: Coverage is less than or equal to 5%"
+            exit 1
+        fi
+
+    # Upload errors as an artifact, when failed
+    - uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: Tests or coverage errors!!!
+        path: ./tests_errors.txt
+        retention-days: 1

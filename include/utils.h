@@ -76,4 +76,45 @@ void display_start_screen(void);
  */
 bool clean_and_check_input(char* str);
 
+/**
+ * @brief Searches for configuration files with a specific extension in a given directory and optionally reads their
+ * content.
+ *
+ * This function recursively searches through the specified directory and its subdirectories for files with the given
+ * extension. If the mode is set to MODE_FILES_AND_CONTENT, it will also read and display the content of the found
+ * files.
+ *
+ * @param dir_path The path to the directory to search in.
+ * @param file_extension The file extension to search for.
+ * @param mode The mode of operation. If set to MODE_FILES_AND_CONTENT, the function will read and display the content
+ * of the found files.
+ *
+ */
+void search_config_files(const char* dir_path, const char* file_extension, int mode);
+
+/**
+ * @brief Reads a configuration file in JSON format and displays its content.
+ *
+ * This function opens a file specified by the given file path, reads its entire
+ * content into a buffer, parses the JSON data, and prints the parsed JSON data.
+ * If any error occurs during file operations, memory allocation, or JSON parsing,
+ * appropriate error messages are displayed.
+ *
+ * @param file_path The path to the configuration file to be read.
+ */
+void read_and_display_config(const char* file_path);
+
+/**
+ * @brief Prints a cJSON item in a human-readable format with indentation.
+ *
+ * This function recursively prints a cJSON item and its children (if any) in a
+ * human-readable format with indentation based on the depth level.
+ *
+ * @param item A pointer to the cJSON item to be printed. If the item is NULL,
+ *             the function prints "NULL" and returns.
+ * @param depth The current depth level for indentation. This determines the
+ *              number of spaces used for indentation.
+ */
+void print_json_item(cJSON* item, int depth);
+
 #endif // UTILS_H

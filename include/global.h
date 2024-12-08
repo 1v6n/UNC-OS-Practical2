@@ -15,6 +15,7 @@
 #define GLOBALS_H
 
 #include <cjson/cJSON.h>
+#include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
@@ -42,7 +43,11 @@
 #define _POSIX_C_SOURCE 200809L                   /**< Macro for enabling POSIX.1-2008 compatibility. */
 #define COLOR_CWD "\x1b[34m"                      /**< Blue color for the cwd*/
 #define COLOR_PROMPT "\x1b[32m"                   /**< Green color for the $ symbol*/
+#define COLOR_USER "\033[1;32m"                   /**< Green color for the user name*/
 #define COLOR_RESET "\x1b[0m"                     /**< Reset to default color*/
+#define MODE_DIRECTORIES_ONLY 1                   /**< Mode for searching directories only. */
+#define MODE_FILES_AND_CONTENT 2                  /**< Mode for searching files and displaying content. */
+#define PATH_MAX 4096                             /**< Maximum path length. */
 
 /**
  * @struct Job

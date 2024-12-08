@@ -123,4 +123,15 @@ void display_metrics_mapping(void);
  */
 void free_metrics(void);
 
+/**
+ * @brief Handles the search_configs command.
+ *
+ * This function processes the search_configs command by extracting the directory path,
+ * file extension, and mode from the parsed command arguments. It then calls the
+ * search_config_files function with the provided arguments.
+ *
+ * @param parsed_cmd A pointer to the ParsedCommand structure containing the command arguments.
+ */
+void handle_search_configs(ParsedCommand* parsed_cmd);
+
 #endif // COMMANDS_H

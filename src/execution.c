@@ -144,6 +144,7 @@ void handle_internal_command(ParsedCommand* parsed_cmd)
                                          {"stop_monitor", handle_stop_monitor},
                                          {"status_monitor", handle_status_monitor},
                                          {"man", handle_man},
+                                         {"search_configs", handle_search_configs},
                                          {NULL, NULL}};
     for (int i = 0; command_handlers[i].command != NULL; i++)
     {

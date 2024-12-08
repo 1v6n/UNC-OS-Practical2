@@ -1,5 +1,15 @@
 #include "commands.h"
 
+#include <dirent.h>
+#include <errno.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 void handle_cd(ParsedCommand* parsed_cmd)
 {
     if (chdir(parsed_cmd->args[1] ? parsed_cmd->args[1] : getenv("HOME")) != 0)
@@ -398,4 +408,20 @@ void free_metrics(void)
         free(metrics[i]);
     }
     num_metrics = 0;
+}
+
+void handle_search_configs(ParsedCommand* parsed_cmd)
+{
+    if (parsed_cmd->args[1] && parsed_cmd->args[2] && parsed_cmd->args[3])
+    {
+        int mode = atoi(parsed_cmd->args[3]);
+        search_config_files(parsed_cmd->args[1], parsed_cmd->args[2], mode);
+    }
+    else
+    {
+        fprintf(stderr, "Usage: search_configs <directory_path> <file_extension> <mode>\n");
+        fprintf(stderr, "Modes:\n");
+        fprintf(stderr, "  1 - List directories containing <file_extension> files\n");
+        fprintf(stderr, "  2 - List directories and print the content of <file_extension> files\n");
+    }
 }
